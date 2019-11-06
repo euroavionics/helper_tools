@@ -330,7 +330,7 @@ def plot_extended(name, group, priority, publication, category, type, lod, xmin,
 				pdf.savefig()
 				plt.close()
 				plt.figure(fig.number)
-				pdf.savefig()
+				pdf.savefig(bbox_inches='tight')
 		except:
 			input(
 				'It was not possible to write the PDF file because a file with the same name is already open.' + '\n' + 'Please close older versions of the PDF file you want to overwrite and run the tool again!!' + '\n' + 'Press ENTER to exit.')
@@ -507,7 +507,7 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 				pdf.savefig()
 				plt.close()
 				plt.figure(fig.number)
-				pdf.savefig()
+				pdf.savefig(bbox_inches='tight')
 
 		except:
 			input(

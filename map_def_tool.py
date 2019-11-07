@@ -47,6 +47,7 @@ from past.utils import old_div
 ##################
 
 ean_logo = "G:/ProjectsPython3/config_tools/Logo.png"
+fac_list = "R:/documentation/FAC_LIST.txt"
 
 
 ##############
@@ -416,7 +417,7 @@ def plot_extended(name, group, priority, publication, category, type, lod, xmin,
 				pdf.savefig()
 
 
-def plot_overview(name, group, priority, publication, category, type, num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo):
+def plot_overview(name, group, priority, publication, category, type, num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo, fac_list):
 	"""
 	Plots the overview version PDF
 	"""
@@ -446,6 +447,26 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 		del category[i]
 		del publication[i]
 		del type[i]
+
+	# remove facilitie Maps
+	with open(fac_list, 'r') as fac_file:
+		facs = fac_file.readlines()
+
+
+	indexes_to_remove = []
+	for i, n in enumerate(name):
+		if n[0:3] == 'fac' or n.split('_')[-1] in [fac.strip() for fac in facs]:
+			print('remove FAC: ' + n)
+			indexes_to_remove.append(i)
+
+	for i in sorted(indexes_to_remove, reverse=True):
+		del name[i]
+		del group[i]
+		del priority[i]
+		del category[i]
+		del publication[i]
+		del type[i]
+
 
 	# Create data frame and order columns as desired
 	d = {'TYPE': type, 'NAME': name, 'GROUP': group, 'PRIORITY': priority, 'CATEGORY': category,
@@ -640,7 +661,7 @@ else:
 
 	# plotting
 	plot_extended(name, group, priority, publication, category, type, lod, xmin, xmax, ymin, ymax, sql, num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo)
-	df = plot_overview(name, group, priority, publication, category, type,  num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo)
+	df = plot_overview(name, group, priority, publication, category, type,  num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo, fac_list)
 	write_csv(df, eam_name, output_folder)
 
 

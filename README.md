@@ -1,5 +1,5 @@
 # helper_tools
-repository for python helper scipts
+repository for python helper scripts
 
 changes in hm_work:
 - creates PDFs with a title page.

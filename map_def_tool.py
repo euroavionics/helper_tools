@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Author: DF, CC, KK, HM (last change 06.11.2019, HM)
+# Author: DF, CC, KK, HM (last change 08.11.2019, HM)
 """
 Summarize in a table the maps contained by a Euronav-disk (using a python script in a windows computer)
 
@@ -64,6 +64,7 @@ def get_user_input(console_string):
 	user_input = input('\n' + console_string)
 	if not os.path.exists(user_input):
 		print('Invalid path')
+		input('Press ENTER to Exit.')
 		sys.exit()
 	else:
 		return user_input
@@ -321,13 +322,15 @@ def plot_extended(name, group, priority, publication, category, type, lod, xmin,
 				cell_dict[(r, c)].set_height(0.05)
 
 		try:
-			# plt.savefig(output_folder + "\Extended_" + eam_name + ".pdf", bbox_inches='tight', format='pdf')
 			with PdfPages(output_folder + '\Extended_' + eam_name + '.pdf') as pdf:
-				plt.figure()
-				plt.axis('off')
-				plt.text(0.5, 0.5, "my title", ha='center', va='center')
+				title_fig = plt.figure()
+				ax = title_fig.add_subplot(211)
+				ax.axis('off')
 				img = mpimg.imread(ean_logo)
-				plt.imshow(img)
+				ax.imshow(img)
+				ax2 = title_fig.add_subplot(212)
+				ax2.axis('off')
+				ax2.text(0.5, 0.4, "Map Overview for: " + eam_name, ha='center', va='center')
 				pdf.savefig()
 				plt.close()
 				plt.figure(fig.number)
@@ -341,8 +344,6 @@ def plot_extended(name, group, priority, publication, category, type, lod, xmin,
 				sys.exit()
 
 	if divided == 'yes':
-
-		# plots = []
 
 		for i in range(0, len(df_list)):
 
@@ -405,11 +406,14 @@ def plot_extended(name, group, priority, publication, category, type, lod, xmin,
 			fig_list.append(fig)
 
 		with PdfPages(output_folder + '\Extended_' + eam_name + '.pdf') as pdf:
-			plt.figure()
-			plt.axis('off')
-			plt.text(0.5, 0.5, "my title", ha='center', va='center')
+			title_fig = plt.figure()
+			ax = title_fig.add_subplot(211)
+			ax.axis('off')
 			img = mpimg.imread(ean_logo)
-			plt.imshow(img)
+			ax.imshow(img)
+			ax2 = title_fig.add_subplot(212)
+			ax2.axis('off')
+			ax2.text(0.5, 0.4, "Map Overview for: " + eam_name, ha='center', va='center')
 			pdf.savefig()
 			plt.close()
 			for fig in fig_list:
@@ -518,13 +522,15 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 				 loc='center', rowLoc='center left', colLoc='center left')
 
 		try:
-			# plt.savefig(output_folder + "\Overview_" + eam_name + ".pdf", bbox_inches='tight', format='pdf')
 			with PdfPages(output_folder + '\Overview_' + eam_name + '.pdf') as pdf:
-				plt.figure()
-				plt.axis('off')
-				plt.text(0.5, 0.5, "my title", ha='center', va='center')
+				title_fig = plt.figure()
+				ax = title_fig.add_subplot(211)
+				ax.axis('off')
 				img = mpimg.imread(ean_logo)
-				plt.imshow(img)
+				ax.imshow(img)
+				ax2 = title_fig.add_subplot(212)
+				ax2.axis('off')
+				ax2.text(0.5, 0.4, "Map Overview for: " + eam_name, ha='center', va='center')
 				pdf.savefig()
 				plt.close()
 				plt.figure(fig.number)
@@ -539,8 +545,6 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 				sys.exit()
 
 	elif divided == 'yes':
-
-		# plots = []
 
 		for i in range(0, len(df_list)):
 
@@ -580,11 +584,14 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 			fig_list.append(fig)
 
 		with PdfPages(output_folder + '\Overview_' + eam_name + '.pdf') as pdf:
-			plt.figure()
-			plt.axis('off')
-			plt.text(0.5, 0.5, "my title", ha='center', va='center')
+			title_fig = plt.figure()
+			ax = title_fig.add_subplot(211)
+			ax.axis('off')
 			img = mpimg.imread(ean_logo)
-			plt.imshow(img)
+			ax.imshow(img)
+			ax2 = title_fig.add_subplot(212)
+			ax2.axis('off')
+			ax2.text(0.5, 0.4, "Map Overview for: " + eam_name, ha='center', va='center')
 			pdf.savefig()
 			plt.close()
 			for fig in fig_list:
@@ -604,11 +611,8 @@ def write_csv(df, eam_name, output_folder):
 		'Two PDF files were created under ' + output_folder + '\n' + '\n' + 'Do not forget to remove the EN7 Drive with safely remove!!!' + '\n')
 
 	input('Press ENTER to exit.')
+	sys.exit()
 
-	if input_pfad == "":
-		sys.exit()
-	else:
-		sys.exit()
 
 
 ########

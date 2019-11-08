@@ -457,11 +457,9 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 	with open(fac_list, 'r') as fac_file:
 		facs = fac_file.readlines()
 
-
 	indexes_to_remove = []
 	for i, n in enumerate(name):
 		if n[0:3] == 'fac' or n.split('_')[-1] in [fac.strip() for fac in facs]:
-			print('remove FAC: ' + n)
 			indexes_to_remove.append(i)
 
 	for i in sorted(indexes_to_remove, reverse=True):
@@ -471,7 +469,6 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 		del category[i]
 		del publication[i]
 		del type[i]
-
 
 	# Create data frame and order columns as desired
 	d = {'TYPE': type, 'NAME': name, 'GROUP': group, 'PRIORITY': priority, 'CATEGORY': category,
@@ -613,7 +610,6 @@ def write_csv(df, eam_name, output_folder):
 
 	input('Press ENTER to exit.')
 	sys.exit()
-
 
 
 ########

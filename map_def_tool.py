@@ -42,12 +42,13 @@ import pandas as pd
 import matplotlib.image as mpimg
 from past.utils import old_div
 
-##################
-# user variables #
-##################
+#########################
+# paths to extern files #
+#########################
 
-ean_logo = "G:/ProjectsPython3/config_tools/Logo.png"
-fac_list = "R:/documentation/FAC_LIST.txt"
+wrkspace = os.path.dirname(__file__)
+ean_logo = os.path.join(wrkspace, "Logo.png")
+fac_list = os.path.join(wrkspace, "FAC_LIST.txt")
 
 
 ##############

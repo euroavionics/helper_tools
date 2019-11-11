@@ -412,6 +412,8 @@ else:
 
 
         with PdfPages(output_folder +'\Extended_' + eam_name + '.pdf') as pdf:
+            plt.figure()
+            plt.text()
             for fig in fig_list:
                 plt.figure(fig.number)
                 pdf.savefig()

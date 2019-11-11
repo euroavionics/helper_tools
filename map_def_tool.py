@@ -41,14 +41,16 @@ from matplotlib.backends.backend_pdf import PdfPages
 import pandas as pd
 import matplotlib.image as mpimg
 from past.utils import old_div
+from datetime import datetime
 
 #########################
-# paths to extern files #
+# variables 			#
 #########################
 
 wrkspace = os.path.dirname(__file__)
 ean_logo = os.path.join(wrkspace, "Logo.png")
 fac_list = os.path.join(wrkspace, "FAC_LIST.txt")
+timestamp = datetime.now().strftime("%H_%M_%S")
 
 
 ##############
@@ -252,7 +254,7 @@ def get_maps_info(maps, data):
 	return name, group, priority, publication, bbmin, bbmax, category, type, lod, xmin, xmax, ymin, ymax, sql
 
 
-def plot_extended(name, group, priority, publication, category, type, lod, xmin, xmax, ymin, ymax, sql, num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo):
+def plot_extended(name, group, priority, publication, category, type, lod, xmin, xmax, ymin, ymax, sql, num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo, ts):
 	"""
 	Plots the extended version PDF
 	"""
@@ -323,7 +325,7 @@ def plot_extended(name, group, priority, publication, category, type, lod, xmin,
 				cell_dict[(r, c)].set_height(0.05)
 
 		try:
-			with PdfPages(output_folder + '\Extended_' + eam_name + '.pdf') as pdf:
+			with PdfPages(output_folder + '\Extended_' + eam_name + '_' + ts + '.pdf') as pdf:
 				title_fig = plt.figure()
 				ax = title_fig.add_subplot(211)
 				ax.axis('off')
@@ -336,6 +338,7 @@ def plot_extended(name, group, priority, publication, category, type, lod, xmin,
 				plt.close()
 				plt.figure(fig.number)
 				pdf.savefig(bbox_inches='tight')
+				plt.close()
 		except:
 			input(
 				'It was not possible to write the PDF file because a file with the same name is already open.' + '\n' + 'Please close older versions of the PDF file you want to overwrite and run the tool again!!' + '\n' + 'Press ENTER to exit.')
@@ -406,7 +409,7 @@ def plot_extended(name, group, priority, publication, category, type, lod, xmin,
 
 			fig_list.append(fig)
 
-		with PdfPages(output_folder + '\Extended_' + eam_name + '.pdf') as pdf:
+		with PdfPages(output_folder + '\Extended_' + eam_name + '_' + ts + '.pdf') as pdf:
 			title_fig = plt.figure()
 			ax = title_fig.add_subplot(211)
 			ax.axis('off')
@@ -421,8 +424,10 @@ def plot_extended(name, group, priority, publication, category, type, lod, xmin,
 				plt.figure(fig.number)
 				pdf.savefig()
 
+			plt.close()
 
-def plot_overview(name, group, priority, publication, category, type, num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo, fac_list):
+
+def plot_overview(name, group, priority, publication, category, type, num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo, fac_list, ts):
 	"""
 	Plots the overview version PDF
 	"""
@@ -520,7 +525,7 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 				 loc='center', rowLoc='center left', colLoc='center left')
 
 		try:
-			with PdfPages(output_folder + '\Overview_' + eam_name + '.pdf') as pdf:
+			with PdfPages(output_folder + '\Overview_' + eam_name + '_' + ts +  '.pdf') as pdf:
 				title_fig = plt.figure()
 				ax = title_fig.add_subplot(211)
 				ax.axis('off')
@@ -533,6 +538,7 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 				plt.close()
 				plt.figure(fig.number)
 				pdf.savefig(bbox_inches='tight')
+				plt.close()
 
 		except:
 			input(
@@ -581,7 +587,7 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 
 			fig_list.append(fig)
 
-		with PdfPages(output_folder + '\Overview_' + eam_name + '.pdf') as pdf:
+		with PdfPages(output_folder + '\Overview_' + eam_name + '_' + ts + '.pdf') as pdf:
 			title_fig = plt.figure()
 			ax = title_fig.add_subplot(211)
 			ax.axis('off')
@@ -596,14 +602,16 @@ def plot_overview(name, group, priority, publication, category, type, num_vector
 				plt.figure(fig.number)
 				pdf.savefig()
 
+			plt.close()
+
 	return df
 
 
-def write_csv(df, eam_name, output_folder):
+def write_csv(df, eam_name, output_folder, ts):
 	"""
 	writes the overview CSV
 	"""
-	df.to_csv(output_folder + '\Overview_' + eam_name + '.csv', sep=';')
+	df.to_csv(output_folder + '\Overview_' + eam_name + '_' + ts + '.csv', sep=';')
 
 	print(
 		'Two PDF files were created under ' + output_folder + '\n' + '\n' + 'Do not forget to remove the EN7 Drive with safely remove!!!' + '\n')
@@ -661,9 +669,9 @@ else:
 	name, group, priority, publication, bbmin, bbmax, category, type, lod, xmin, xmax, ymin, ymax, sql = get_maps_info(maps, data)
 
 	# plotting
-	plot_extended(name, group, priority, publication, category, type, lod, xmin, xmax, ymin, ymax, sql, num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo)
-	df = plot_overview(name, group, priority, publication, category, type,  num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo, fac_list)
-	write_csv(df, eam_name, output_folder)
+	plot_extended(name, group, priority, publication, category, type, lod, xmin, xmax, ymin, ymax, sql, num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo, timestamp)
+	df = plot_overview(name, group, priority, publication, category, type,  num_vector_maps, num_raster_maps, num_terrain_maps, ean_logo, fac_list, timestamp)
+	write_csv(df, eam_name, output_folder, timestamp)
 
 
 
